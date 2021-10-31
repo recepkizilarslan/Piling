@@ -55,6 +55,23 @@ This will start scanning to 127.0.0.1 and analyze opened ports and save identifi
 127.0.0.1 : 25 - Closed - 10/31/2021 13:53:45 - 2606
 127.0.0.1 : 62 - Closed - 10/31/2021 13:53:45 - 2461
 ```
+## Start commands
+
+| Command  | Description |
+| ------------- | ------------- |
+| scan | Scan to target ip  |
+| from  | Port range start number  |
+| to  | Port range stop number  |
+| save  | Output file  |
+
+## State Action
+You can change pause/ resume while scanning
+
+| Command  | Description |
+| ------------- | ------------- |
+| ESC | Stop scanning  |
+| Spacebar | Pause/Resume scanning  |
+
 
 ## License
 MIT
