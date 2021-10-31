@@ -11,7 +11,7 @@ Open your favorite Terminal and run these commands.
 
 Installation:
 ```sh
-git clone https://github.com/YOUR-USERNAME/YOUR-REPOSITORY
+git clone https://github.com/recepkizilarslan/Piling
 ```
 
 And:
