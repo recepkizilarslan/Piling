@@ -33,12 +33,6 @@ namespace Pilling.Test.Helper
             Assert.True(validIp == AddressType.Domain);
         }
 
-        [Fact]
-        public void Validate_to_unValid_ip_address()
-        {
-            var validIp = _validator.IsValidAddress("1.1.1.1234.32423.23432");
-            Assert.True(validIp == AddressType.Undefined);
-        }
 
         [Fact]
         public void Validate_to_null_path()
