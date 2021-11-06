@@ -38,10 +38,18 @@ scan {ipAddress} from {portStartRange} to {portFinishRange} then save {OutputPat
 
 By a real example :
 
+[Windows]
 ```sh
 cd pilling
 piling.exe scan 127.0.0.1 from 12 to 65535 then save "C:\Users\RecepKizilarslan\Documents\result.txt"
 ```
+
+[Linux]
+```sh
+cd bin/Debug/net5.0
+./Piling scan 127.0.0.1 from 12 to 65535 then save result.txt
+```
+
 This will start scanning to 127.0.0.1 and analyze opened ports and save identified output.
 
 ```sh
