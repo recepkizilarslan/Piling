@@ -32,7 +32,7 @@ namespace Piling.Helper
             }
 
             var addressType = _validator.IsValidAddress(getAddress.Item2);
-            var address = string.Empty;
+            string address;
 
             switch (addressType)
             {

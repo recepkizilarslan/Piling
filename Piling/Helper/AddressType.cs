@@ -8,9 +8,9 @@ namespace Piling.Helper
     public enum AddressType
     {
         /// <summary>
-        /// Address address
+        /// Ip address
         /// </summary>
-        [Display(Name = "Address Address")]
+        [Display(Name = "Ip Address")]
         Ip,
 
         /// <summary>
