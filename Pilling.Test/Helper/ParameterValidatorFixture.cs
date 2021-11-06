@@ -1,5 +1,3 @@
-using System;
-using System.IO;
 using System.Reflection;
 using Piling.Helper;
 using Piling.Model;
@@ -17,15 +15,29 @@ namespace Pilling.Test.Helper
         [Fact]
         public void Validate_to_valid_ip_address()
         {
-            var validIp = _validator.IsValidIP("192.168.2.1");
-            Assert.True(validIp);
+            var validIp = _validator.IsValidAddress("192.168.2.1");
+            Assert.True(validIp == AddressType.Ip);
+        }
+
+        [Fact]
+        public void Validate_to_valid_domain()
+        {
+            var validIp = _validator.IsValidAddress("google.com");
+            Assert.True(validIp == AddressType.Domain);
+        }
+
+        [Fact]
+        public void Validate_to_unvalid_domain()
+        {
+            var validIp = _validator.IsValidAddress("google");
+            Assert.True(validIp == AddressType.Domain);
         }
 
         [Fact]
         public void Validate_to_unValid_ip_address()
         {
-            var validIp = _validator.IsValidIP("1.1.1.1234.32423.23432");
-            Assert.False(validIp);
+            var validIp = _validator.IsValidAddress("1.1.1.1234.32423.23432");
+            Assert.True(validIp == AddressType.Undefined);
         }
 
         [Fact]

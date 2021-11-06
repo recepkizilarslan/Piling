@@ -8,15 +8,15 @@
         /// <summary>
         /// Default constructor
         /// </summary>
-        /// <param name="ip"></param>
+        /// <param name="address"></param>
         /// <param name="portStartRange"></param>
         /// <param name="portFinishRange"></param>
         /// <param name="outputPath"></param>
         /// <param name="outputFormat"></param>
         /// <param name="threadCount"></param>
-        public ScanOptions(string ip,int portStartRange,int portFinishRange, string outputPath, OutputFormat outputFormat, int threadCount=10)
+        public ScanOptions(string address,int portStartRange,int portFinishRange, string outputPath, OutputFormat outputFormat, int threadCount=10)
         {
-            Ip = ip;
+            Address = address;
             PortStartRange = portStartRange;
             PortFinishRange = portFinishRange;
             ThreadCount = threadCount;
@@ -25,9 +25,9 @@
         }
 
         /// <summary>
-        /// Get or set ip
+        /// Get or set address
         /// </summary>
-        public string Ip { get; set; }
+        public string Address { get; set; }
 
         /// <summary>
         /// Get or set port start range 

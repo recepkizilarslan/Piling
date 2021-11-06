@@ -87,12 +87,12 @@ namespace Piling
             new Thread(
                 () =>
                 {
-                    foreach (var a in IPAddressRange.Parse(_options.Ip))
+                    foreach (var ip in IPAddressRange.Parse(_options.Address))
                     {
                         for (var j = _options.PortStartRange; j <= _options.PortFinishRange; j++)
                         {
                             _stateManager.ListenState();
-                            _waitingRequests?.Enqueue(new TcpRequest { Ip = a, Port = j, Status = PortStatus.NotScanned });
+                            _waitingRequests?.Enqueue(new TcpRequest { Ip = ip, Port = j, Status = PortStatus.NotScanned });
                             Interlocked.Increment(ref _stateManager.ParsedIpAddress);
                         }
                     }

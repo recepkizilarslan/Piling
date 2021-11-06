@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using System.Net;
 using Piling.Model;
 using Console = Colorful.Console;
 
@@ -23,12 +24,36 @@ namespace Piling.Helper
         public ScanOptions Handle(string[] args)
         {
 
-            var getIP = ParamValidator(ref args, "scan");
+            var getAddress = ParamValidator(ref args, "scan");
 
-            if (!getIP.Item1 && _validator.IsValidIP(getIP.Item2))
+            if (!getAddress.Item1)
             {
                 return null;
             }
+
+            var addressType = _validator.IsValidAddress(getAddress.Item2);
+            var address = string.Empty;
+
+            switch (addressType)
+            {
+                case AddressType.Ip:
+                    address = getAddress.Item2;
+                    break;
+                case AddressType.Domain:
+                    address = ResolveIpAddressOfDomain(getAddress.Item2);
+                    if (address is null)
+                    {
+                        Console.WriteLine("Domain Address cannot resolved");
+                        return null;
+                    }
+                    break;
+                case AddressType.Undefined:
+                    Console.WriteLine("Address cannot resolved");
+                    return null;
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
+
 
 
             var getPortStartRange = ParamValidator(ref args, "from");
@@ -61,7 +86,7 @@ namespace Piling.Helper
 
 
             return new ScanOptions(
-                getIP.Item2,
+                address,
                 Convert.ToInt32(getPortStartRange.Item2),
                 Convert.ToInt32(getPortFinishRange.Item2),
                 getOutput.Item2, outputType);
@@ -89,6 +114,30 @@ namespace Piling.Helper
                 return (true, args[paramIndex].Replace(param, ""));
             Console.WriteLine($"{param} mustn't be null!");
             return (false, null);
+        }
+
+
+
+
+
+
+
+        /// <summary>
+        /// Resolve ip address of the domain
+        /// </summary>
+        /// <param name="domainAddress"></param>
+        /// <returns></returns>
+        private string ResolveIpAddressOfDomain(string domainAddress)
+        {
+            try
+            {
+                return Dns.GetHostAddresses(domainAddress).FirstOrDefault()?.ToString();
+            }
+            catch (Exception e)
+            {
+               //noop
+               return null;
+            }
         }
     }
 }

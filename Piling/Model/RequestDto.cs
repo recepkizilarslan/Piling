@@ -13,7 +13,7 @@ namespace Piling.Model
         public int No { get; set; }
 
         /// <summary>
-        /// Get or set Ip address
+        /// Get or set Address address
         /// </summary>
         public string Ip { get; set; }
 
