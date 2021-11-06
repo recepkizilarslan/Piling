@@ -11,7 +11,7 @@ Open your favorite Terminal and run these commands.
 
 Installation:
 ```sh
-git clone https://github.com/YOUR-USERNAME/YOUR-REPOSITORY
+git clone https://github.com/recepkizilarslan/Piling
 ```
 
 And:
@@ -38,10 +38,18 @@ scan {ipAddress} from {portStartRange} to {portFinishRange} then save {OutputPat
 
 By a real example :
 
+[Windows]
 ```sh
 cd pilling
 piling.exe scan 127.0.0.1 from 12 to 65535 then save "C:\Users\RecepKizilarslan\Documents\result.txt"
 ```
+
+[Linux]
+```sh
+cd bin/Debug/net5.0
+./Piling scan 127.0.0.1 from 12 to 65535 then save result.txt
+```
+
 This will start scanning to 127.0.0.1 and analyze opened ports and save identified output.
 
 ```sh
@@ -55,6 +63,23 @@ This will start scanning to 127.0.0.1 and analyze opened ports and save identifi
 127.0.0.1 : 25 - Closed - 10/31/2021 13:53:45 - 2606
 127.0.0.1 : 62 - Closed - 10/31/2021 13:53:45 - 2461
 ```
+## Start commands
+
+| Command  | Description |
+| ------------- | ------------- |
+| scan | Scan to target ip  |
+| from  | Port range start number  |
+| to  | Port range stop number  |
+| save  | Output file  |
+
+## State Action
+You can change pause/ resume while scanning
+
+| Command  | Description |
+| ------------- | ------------- |
+| ESC | Stop scanning  |
+| Spacebar | Pause/Resume scanning  |
+
 
 ## License
 MIT
