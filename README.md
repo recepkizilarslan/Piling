@@ -31,7 +31,7 @@ dotnet build
 Piling supports is very easy to start port scan by plain syntax.
 
 ```sh
-scan {ipAddress} from {portStartRange} to {portFinishRange} then save {OutputPath}
+scan {ipAddress or domain} from {portStartRange} to {portFinishRange} then save {OutputPath}
 ```
 
 > Note: `all keywords` are required for port scanning.
@@ -39,15 +39,16 @@ scan {ipAddress} from {portStartRange} to {portFinishRange} then save {OutputPat
 By a real example :
 
 [Windows]
+
 ```sh
 cd pilling
-piling.exe scan 127.0.0.1 from 12 to 65535 then save "C:\Users\RecepKizilarslan\Documents\result.txt"
+piling.exe scan google.com from 12 to 65535 then save "C:\Users\RecepKizilarslan\Documents\result.txt"
 ```
 
 [Linux]
 ```sh
 cd bin/Debug/net5.0
-./Piling scan 127.0.0.1 from 12 to 65535 then save result.txt
+./Piling scan google.com from 12 to 65535 then save result.txt
 ```
 
 This will start scanning to 127.0.0.1 and analyze opened ports and save identified output.
@@ -67,7 +68,7 @@ This will start scanning to 127.0.0.1 and analyze opened ports and save identifi
 
 | Command  | Description |
 | ------------- | ------------- |
-| scan | Scan to target ip  |
+| scan | Scan to target ip or domain |
 | from  | Port range start number  |
 | to  | Port range stop number  |
 | save  | Output file  |
