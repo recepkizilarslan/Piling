@@ -33,15 +33,15 @@ namespace Piling.Implementation
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="requestDto"></param>
+        /// <param name="request"></param>
         /// <returns></returns>
-        public async Task Write(RequestDto requestDto)
+        public async Task Write(Request request)
         {
             Mutex.WaitOne();
 
             await using (StreamWriter sw = new(_outputPath, append: true))
             {
-                await sw.WriteLineAsync($"{requestDto.Ip} : {requestDto.Port} - {requestDto.Status} - {requestDto.Time} - {requestDto.ElapsedTime}");
+                await sw.WriteLineAsync($"{request.Ip} : {request.Port} - {request.Status} - {request.Time} - {request.ElapsedTime}");
                 sw.Close();
             }
 

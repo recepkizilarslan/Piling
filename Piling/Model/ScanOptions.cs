@@ -1,4 +1,7 @@
-﻿namespace Piling.Model
+﻿using System;
+using Piling.Helper;
+
+namespace Piling.Model
 {
     /// <summary>
     /// Scan configuration model
@@ -6,7 +9,15 @@
     public class ScanOptions
     {
         /// <summary>
-        /// Default constructor
+        /// Default const
+        /// </summary>
+        public ScanOptions()
+        {
+                
+        }
+
+        /// <summary>
+        /// Constructor with arguments
         /// </summary>
         /// <param name="address"></param>
         /// <param name="portStartRange"></param>
@@ -14,7 +25,8 @@
         /// <param name="outputPath"></param>
         /// <param name="outputFormat"></param>
         /// <param name="threadCount"></param>
-        public ScanOptions(string address,int portStartRange,int portFinishRange, string outputPath, OutputFormat outputFormat, int threadCount=10)
+        /// <param name="reportOptions"></param>
+        public ScanOptions(string address,int portStartRange,int portFinishRange, string outputPath, OutputFormat outputFormat, int threadCount=10, ReportOptions reportOptions = ReportOptions.All)
         {
             Address = address;
             PortStartRange = portStartRange;
@@ -53,5 +65,11 @@
         /// Get or set thread count
         /// </summary>
         public int ThreadCount { get; set; }
+
+        /// <summary>
+        /// Get or set report options
+        /// </summary>
+        public ReportOptions ReportOptions { get; set; }
+
     }
 }

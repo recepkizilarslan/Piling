@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Drawing;
-using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Piling.Helper;
@@ -34,12 +33,9 @@ namespace Piling
         static void Main(string[] args)
         {
             WriteBanner();
+
             var options = _parameterHandler.Handle(args);
             
-            if (options is null)
-            {
-                Console.ReadLine();
-            }
 
             ScanManager = new ScanManager(options);
 
@@ -70,11 +66,11 @@ namespace Piling
         /// <summary>
         /// Write message to console
         /// </summary>
-        /// <param name="informationDto"></param>
-        static void WriteStatus(RequestDto informationDto)
+        /// <param name="information"></param>
+        static void WriteStatus(Request information)
         {
-            var color = informationDto.Status == "Open" ? Color.Green : Color.Red;
-            Console.WriteLine($"{informationDto.No} IP : {informationDto.Ip} Port : {informationDto.Port} - {informationDto.Status}", color);
+            var color = information.Status == "Open" ? Color.Green : Color.Gray;
+            Console.WriteLine($"{information.No} IP : {information.Ip} Port : {information.Port} - {information.Status}", color);
         }
 
         
@@ -92,6 +88,7 @@ namespace Piling
                         new Thread(
                             () => { ScanManager.Stop(); }).Start();
                         _stopRun = true;
+                        Environment.Exit(0);
                         break;
                     case ConsoleKey.Spacebar:
                         if (!_paused)

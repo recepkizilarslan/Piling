@@ -4,6 +4,7 @@ using System.Globalization;
 using System.Threading;
 using NetTools;
 using Piling.Core;
+using Piling.Helper;
 using Piling.Implementation;
 using Piling.Model;
 using Piling.Structure;
@@ -24,7 +25,7 @@ namespace Piling
         /// <summary>
         /// Process information action. This property binds to ui method for output
         /// </summary>
-        public Action<RequestDto> ProcessInformationAction;
+        public Action<Request> ProcessInformationAction;
 
         /// <summary>
         ///  use state manager class
@@ -55,6 +56,7 @@ namespace Piling
         /// Scan options
         /// </summary>
         private readonly ScanOptions _options;
+
 
         /// <summary>
         /// Default constructor
@@ -108,11 +110,30 @@ namespace Piling
 
             var request = _finishedRequests?.Dequeue();
 
-            if (request is null) return;
+
+            switch (_options.ReportOptions)
+            {
+                case ReportOptions.All:
+                    break;
+                case ReportOptions.Opened:
+                    if (request.Status is PortStatus.Open)
+                    {
+                        break;
+                    }
+                    return;
+                case ReportOptions.Closed:
+                    if (request.Status is PortStatus.Closed)
+                    {
+                        break;
+                    }
+                    return;
+            }
+
+
             Interlocked.Increment(ref _resultCount);
             Interlocked.Increment(ref _stateManager.SuccessResults);
 
-            var message = new RequestDto
+            var message = new Request
             {
                 No = _resultCount,
                 Ip = request.Ip.ToString(),
@@ -197,6 +218,7 @@ namespace Piling
                 Console.WriteLine(ex.Message, Color.DarkRed);
             }
         }
+
     }
 }
 

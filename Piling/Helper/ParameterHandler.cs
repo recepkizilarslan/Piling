@@ -1,8 +1,8 @@
-﻿using System;
+﻿using CommandLine;
+using Piling.Model;
+using System;
 using System.Linq;
 using System.Net;
-using Piling.Model;
-using Console = Colorful.Console;
 
 namespace Piling.Helper
 {
@@ -23,104 +23,74 @@ namespace Piling.Helper
         /// <returns></returns>
         public ScanOptions Handle(string[] args)
         {
+            var scanOptions = new ScanOptions();
+            var result = Parser.Default.ParseArguments<Parameters>(args)
+                .WithParsed(options =>
+                {
+                    var addressType = _validator.IsValidAddress(options.Address);
 
-            var getAddress = ParamValidator(ref args, "scan");
-
-            if (!getAddress.Item1)
-            {
-                return null;
-            }
-
-            var addressType = _validator.IsValidAddress(getAddress.Item2);
-            string address;
-
-            switch (addressType)
-            {
-                case AddressType.Ip:
-                    address = getAddress.Item2;
-                    break;
-                case AddressType.Domain:
-                    address = ResolveIpAddressOfDomain(getAddress.Item2);
-                    if (address is null)
+                    switch (addressType)
                     {
-                        Console.WriteLine("Domain Address cannot resolved");
-                        return null;
+                        case AddressType.Ip:
+                            scanOptions.Address = options.Address;
+                            break;
+                        case AddressType.Domain:
+                            scanOptions.Address = ResolveIpAddressOfDomain(options.Address);
+                            if (scanOptions.Address is null)
+                            {
+                                throw new PilingException("Domain Address cannot resolved", true);
+                            }
+                            break;
+                        case AddressType.Undefined:
+                            throw new PilingException("Unsupported address type", true);
+                        default:
+                            throw new PilingException("Unsupported address type", true);
                     }
-                    break;
-                case AddressType.Undefined:
-                    Console.WriteLine("Address cannot resolved");
-                    return null;
-                default:
-                    throw new ArgumentOutOfRangeException();
-            }
+
+                    if (options.PortStartRange < 12)
+                    {
+                        throw new PilingException("Port start range is invalid Start min 12", true);
+                    }
+
+                    scanOptions.PortStartRange = options.PortStartRange;
+
+                    if (options.PortFinishRange < 13 || options.PortFinishRange > 65535)
+                    {
+                        throw new PilingException("Port start range is invalid. The range must be 13-65535", true);
+                    }
+
+                    scanOptions.PortFinishRange = options.PortFinishRange;
+
+                    var outputType = _validator.IsValidType(options.Path);
+                    if (outputType == OutputFormat.Undefined)
+                    {
+                        throw new PilingException("Unsupported output type", true);
+                    }
+
+                    switch (options.ReportOptions)
+                    {
+                        case null:
+                            scanOptions.ReportOptions = ReportOptions.All;
+                            break;
+                        case "opened":
+                            scanOptions.ReportOptions = ReportOptions.Opened;
+                            break;
+                        case "closed":
+                            scanOptions.ReportOptions = ReportOptions.Closed;
+                            break;
+                        default:
+                            throw new PilingException("Unsupported report options", true);
+                    }
 
 
 
-            var getPortStartRange = ParamValidator(ref args, "from");
+                    scanOptions.OutputFormat = outputType;
+                    scanOptions.OutputPath = options.Path;
 
-            if (!getPortStartRange.Item1)
-            {
-                return null;
-            }
+                });
 
-            var getPortFinishRange = ParamValidator(ref args, "to");
-
-            if (!getPortFinishRange.Item1)
-            {
-                return null;
-            }
-
-            var getOutput = ParamValidator(ref args, "save");
-
-            if (!getOutput.Item1)
-            {
-                return null;
-            }
-
-            var outputType = _validator.IsValidType(getOutput.Item2);
-            if (outputType == OutputFormat.Undefined)
-            {
-                Colorful.Console.WriteLine("Unsupported output type");
-                return null;
-            }
-
-
-            return new ScanOptions(
-                address,
-                Convert.ToInt32(getPortStartRange.Item2),
-                Convert.ToInt32(getPortFinishRange.Item2),
-                getOutput.Item2, outputType);
+            return result.Tag == ParserResultType.NotParsed ? null : scanOptions;
         }
-
-        /// <summary>
-        /// Validate user params
-        /// </summary>
-        /// <param name="args"></param>
-        /// <param name="param"></param>
-        /// <returns>Tuple<bool,string></returns>
-        private (bool, string) ParamValidator(ref string[] args, string param)
-        {
-            var index = args.ToList().FindIndex(x => x.StartsWith(param));
-
-            if (index is -1)
-            {
-                Console.WriteLine($"{param} param is required");
-                return (false, null);
-            }
-
-            var paramIndex = index + 1;
-
-            if (!string.IsNullOrEmpty(args[paramIndex]))
-                return (true, args[paramIndex].Replace(param, ""));
-            Console.WriteLine($"{param} mustn't be null!");
-            return (false, null);
-        }
-
-
-
-
-
-
 
         /// <summary>
         /// Resolve ip address of the domain
@@ -135,8 +105,8 @@ namespace Piling.Helper
             }
             catch (Exception e)
             {
-               //noop
-               return null;
+                //noop
+                return null;
             }
         }
     }

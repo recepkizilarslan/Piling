@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Globalization;
 using System.IO;
 using System.Text.RegularExpressions;
 using Piling.Model;
@@ -84,7 +83,6 @@ namespace Piling.Helper
             }
             catch (Exception e)
             {
-                Console.WriteLine(e);
                 return OutputFormat.Undefined;
             }
         }
