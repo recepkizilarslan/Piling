@@ -9,7 +9,7 @@ namespace Piling.Implementation
     /// <summary>
     /// This class implementation of the tcp tcpRequest
     /// </summary>
-    public class TcpRequester : IRequest<TcpRequest>
+    public class TcpRequester : IRequest
     {
         /// <summary>
         /// Use stopwatch for calculate sw data.
