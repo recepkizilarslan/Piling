@@ -28,13 +28,23 @@ dotnet build
 
 ## Usage
 
-Piling supports is very easy to start port scan by plain syntax.
+Piling supports is very easy to start port scan simple commands.
 
 ```sh
-scan {ipAddress or domain} from {portStartRange} to {portFinishRange} then save {OutputPath}
+--scan {ipAddress or domain} --from {portStartRange} --to {portFinishRange} --save {OutputPath}
 ```
 
 > Note: `all keywords` are required for port scanning.
+
+Generate report for the spesific result
+
+```sh
+--scan {ipAddress or domain} --from {portStartRange} --to {portFinishRange} --save {OutputPath} --just {result type}
+```
+
+```sh
+--scan google.com --from 12 --to 65535 --save "result.txt" --just opened
+```
 
 By a real example :
 
@@ -42,13 +52,13 @@ By a real example :
 
 ```sh
 cd pilling
-piling.exe scan google.com from 12 to 65535 then save "C:\Users\RecepKizilarslan\Documents\result.txt"
+piling.exe --scan google.com --from 12 --to 65535 --save "result.txt" -just closed
 ```
 
 [Linux]
 ```sh
 cd bin/Debug/net5.0
-./Piling scan google.com from 12 to 65535 then save result.txt
+./Piling --scan 127.0.0.1 --from 12 --to 65535 --save result.txt
 ```
 
 This will start scanning to 127.0.0.1 and analyze opened ports and save identified output.
@@ -68,10 +78,11 @@ This will start scanning to 127.0.0.1 and analyze opened ports and save identifi
 
 | Command  | Description |
 | ------------- | ------------- |
-| scan | Scan to target ip or domain |
-| from  | Port range start number  |
-| to  | Port range stop number  |
-| save  | Output file  |
+| --scan | Scan to target ip or domain |
+| --from  | Port range start number  |
+| --to  | Port range stop number  |
+| --save  | Output file  |
+| --just  | Report option  |
 
 ## State Action
 You can change pause/ resume while scanning
