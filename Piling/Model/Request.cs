@@ -1,11 +1,9 @@
-﻿using System;
-
-namespace Piling.Model
+﻿namespace Piling.Model
 {
     /// <summary>
     /// Request information data transfer object
     /// </summary>
-    public class RequestDto
+    public class Request
     {
         /// <summary>
         /// Get or set request no

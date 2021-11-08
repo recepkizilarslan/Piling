@@ -17,7 +17,7 @@ namespace Piling.Core
         /// <summary>
         /// Write request to file
         /// </summary>
-        /// <param name="requestDto"></param>
-        public Task Write(RequestDto requestDto);
+        /// <param name="request"></param>
+        public Task Write(Request request);
     }
 }
